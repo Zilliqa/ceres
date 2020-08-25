@@ -21,10 +21,12 @@
     "cors": "^2.8.5",
     "dns": "^0.2.2",
     "dockerode": "^3.2.1",
+    "express": "^4.17.1",
     "fix-path": "^3.0.0",
     "net": "^1.0.2",
     "node-docker-api": "^1.1.22",
     "shebang-loader": "0.0.1",
+    "socket.io-client": "^2.3.0",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
     "vuex": "^3.4.0"

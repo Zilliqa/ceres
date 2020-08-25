@@ -12,6 +12,7 @@
     </td>
     <td>
       <div class="actions" v-if="!loading">
+        <b-button type="btn is-info mr-2" v-if="co.State === 'running'">Details</b-button>
         <b-button
           type="btn is-success"
           @click="handleStartContainer"

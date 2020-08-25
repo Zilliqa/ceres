@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h1 class="title">Ceres - Zilliqa Local Network</h1>
+    <h1 class="title">Ceres - Zilliqa Development Tools</h1>
     <router-view />
   </div>
 </template>

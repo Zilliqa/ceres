@@ -1,103 +1,87 @@
 <template>
-  <div class="hello">
-    <div class="container">
-      <h4>Available Services</h4>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Service Name</th>
-            <th>State</th>
-            <th>Status</th>
-            <th style="display: none;">Docker ID</th>
-            <th>Address</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <container-row
-          v-on:reload-containers="handleReloadContainers"
-          v-for="co in containers"
-          :key="co.Id"
-          :co="co"
-        ></container-row>
-      </table>
+  <div class="container">
+    <div class="service-item" @click="redirectToService('isolatedserver')">
+      <div class="logo">
+        <img src="@/assets/logo-placeholder.png" />
+      </div>
+      <div class="name">Isolated Server</div>
+      <div class="state"></div>
     </div>
-    <div class="container">
-      <h4>Service Images</h4>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Service Name</th>
-            <th>ID</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <image-row
-          v-on:reload-images="reloadData"
-          v-for="image in services"
-          :key="image.id"
-          :image="image"
-        ></image-row>
-      </table>
+    <div class="service-item" @click="redirectToService('isolatedserverfaucet')">
+      <div class="logo">
+        <img src="@/assets/logo-placeholder.png" />
+      </div>
+      <div class="name">Isolated Server Faucet</div>
+      <div class="state"></div>
+    </div>
+    <div class="service-item" @click="redirectToService('scillaserver')">
+      <div class="logo">
+        <img src="@/assets/logo-placeholder.png" />
+      </div>
+      <div class="name">Scilla Server</div>
+      <div class="state"></div>
+    </div>
+    <div class="service-item" @click="redirectToService('devex')">
+      <div class="logo">
+        <img src="@/assets/devex-logo.png" />
+      </div>
+      <div class="name">Local Network</div>
+      <div class="state"></div>
     </div>
   </div>
 </template>
 
 <script>
-import axios from "axios";
-import ContainerRow from "@/components/ContainerRow";
-import ImageRow from "@/components/ImageRow";
-
 export default {
   name: "HelloWorld",
-  components: { ContainerRow, ImageRow },
   data() {
     return {
+      socket: undefined,
       images: [],
       containers: [],
-      services: [],
+      services: [
+        {
+          name: "Isolated Server Instance",
+          image: "isolatedserver",
+          tarbal: "isolatedserver.tar.gz",
+          labels: {
+            name: "Isolated Server Instance",
+            ceres: "isolatedserver",
+            containerPort: "5555",
+            hostPort: "5555",
+          },
+          installed: false,
+        },
+        {
+          name: "Isolated Server Faucet",
+          image: "isolatedserverfaucet",
+          tarbal: "isolatedserverfaucet.tar.gz",
+          labels: {
+            name: "Isolated Server Faucet",
+            ceres: "isolatedserverfaucet",
+            containerPort: "5556",
+            hostPort: "5556",
+          },
+          installed: false,
+        },
+        {
+          name: "Local Network Explorer",
+          image: "devex",
+          installed: false,
+          tarbal:
+            "https://storage.googleapis.com/staging.personal-website-fc11b.appspot.com/test.tar.gz",
+        },
+      ],
     };
   },
   props: {
     msg: String,
   },
-  async created() {
-    await this.getServices();
-    await this.reloadData();
-
-    setInterval(async () => {
-      await this.reloadData();
-    }, 10000);
-  },
   methods: {
-    async getServices() {
-      const services = await axios.get("http://localhost:3939/image/available");
-
-      this.services = services.data;
-    },
-    async handleReloadContainers() {
-      const containers = await axios.get(
-        "http://localhost:3939/container/list"
-      );
-
-      this.containers = containers.data;
-    },
-    async handleReloadImages() {
-      const images = await axios.get("http://localhost:3939/image/list");
-
-      this.images = images.data;
-
-      this.images.forEach((image) => {
-        const found = this.services.find(
-          (serv) => serv.image === image.data.Labels.ceres
-        );
-        if (found !== undefined) {
-          found.installed = true;
-        }
+    redirectToService(service) {
+      return this.$router.push({
+        name: service,
       });
-    },
-    async reloadData() {
-      await this.handleReloadImages();
-      await this.handleReloadContainers();
     },
   },
 };
@@ -107,6 +91,44 @@ export default {
 <style scoped lang="scss">
 .container {
   padding: 2rem;
+
+  display: flex;
+  justify-content: center;
+
+  .service-item {
+    padding: 1rem 2rem;
+    border: 1px solid #444;
+    margin-right: 1rem;
+    border-radius: 10px;
+
+    width: 200px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .name {
+      text-align: center;
+    }
+
+    &:hover {
+      background-color: #444;
+      cursor: pointer;
+    }
+
+    .logo {
+      width: 100px;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      img {
+        object-fit: contain;
+      }
+    }
+  }
 }
 .dockerid {
   width: 150px;
