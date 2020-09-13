@@ -30,6 +30,25 @@ if(!isDevelopment) {
   test.on('close', (code) => {
     console.log(`child process exited with code ${code}`);
   });
+}else {
+  const test = execFile('node', [app.getAppPath() + '/extra/server.js'], (error, stdout) => {
+    if (error) {
+      throw error;
+    }
+    console.log(stdout);
+  });
+
+  test.stdout.on('data', (data) => {
+    console.log(`stdout: ${data}`);
+  });
+
+  test.stderr.on('data', (data) => {
+    console.error(`stderr: ${data}`);
+  });
+
+  test.on('close', (code) => {
+    console.log(`child process exited with code ${code}`);
+  });
 }
 
 // Keep a global reference of the window object, if you don't, the window will
