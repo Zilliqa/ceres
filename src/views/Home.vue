@@ -2,30 +2,23 @@
   <div class="container">
     <div class="service-item" @click="redirectToService('isolatedserver')">
       <div class="logo">
-        <img src="@/assets/logo-placeholder.png" />
+        <img src="@/assets/logo-isolated-server.png" />
       </div>
-      <div class="name">Isolated Server</div>
-      <div class="state"></div>
-    </div>
-    <div class="service-item" @click="redirectToService('isolatedserverfaucet')">
-      <div class="logo">
-        <img src="@/assets/logo-placeholder.png" />
-      </div>
-      <div class="name">Isolated Server Faucet</div>
+      <div class="name text-light">Isolated Server</div>
       <div class="state"></div>
     </div>
     <div class="service-item" @click="redirectToService('scillaserver')">
       <div class="logo">
         <img src="@/assets/logo-placeholder.png" />
       </div>
-      <div class="name">Scilla Server</div>
+      <div class="name text-light">Scilla Server</div>
       <div class="state"></div>
     </div>
     <div class="service-item" @click="redirectToService('devex')">
       <div class="logo">
-        <img src="@/assets/devex-logo.png" />
+        <img src="@/assets/logo-devex.png" />
       </div>
-      <div class="name">Local Network</div>
+      <div class="name text-light">Network Explorer</div>
       <div class="state"></div>
     </div>
   </div>
@@ -33,7 +26,7 @@
 
 <script>
 export default {
-  name: "HelloWorld",
+  name: "Home",
   data() {
     return {
       socket: undefined,
@@ -125,23 +118,11 @@ export default {
       justify-content: center;
 
       img {
+        width: 100%;
+        height: 100%;
         object-fit: contain;
       }
     }
-  }
-}
-.dockerid {
-  width: 150px;
-  overflow: hidden;
-}
-.table {
-  width: 100%;
-  background-color: #4a5759;
-
-  td,
-  th {
-    padding: 0.5rem;
-    color: #fff;
   }
 }
 </style>

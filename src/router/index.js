@@ -1,57 +1,52 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
-import Container from '../views/Container.vue'
-import IsolatedServer from '../views/IsolatedServer.vue'
-import IsolatedServerFaucet from '../views/IsolatedServerFaucet.vue'
-import ScillaServer from '../views/ScillaServer.vue'
-import Devex from '../views/Devex.vue'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import Home from "../views/Home.vue";
+import Container from "../views/Container.vue";
+import IsolatedServer from "../views/Services/IsolatedServer";
+import ScillaServer from "../views/Services/ScillaServer";
+import Devex from "../views/Services/Devex";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
-    component: Home
+    path: "/",
+    name: "home",
+    component: Home,
   },
   {
-    path: '/container/:containerId',
-    name: 'container',
-    component: Container
+    path: "/container/:containerId",
+    name: "container",
+    component: Container,
   },
   {
-    path: '/isolatedserver',
-    name: 'isolatedserver',
-    component: IsolatedServer
+    path: "/isolatedserver",
+    name: "isolatedserver",
+    component: IsolatedServer,
   },
   {
-    path: '/isolatedserverfaucet',
-    name: 'isolatedserverfaucet',
-    component: IsolatedServerFaucet
+    path: "/scillaserver",
+    name: "scillaserver",
+    component: ScillaServer,
   },
   {
-    path: '/scillaserver',
-    name: 'scillaserver',
-    component: ScillaServer
+    path: "/devex",
+    name: "devex",
+    component: Devex,
   },
   {
-    path: '/devex',
-    name: 'devex',
-    component: Devex
-  },
-  {
-    path: '/about',
-    name: 'About',
+    path: "/about",
+    name: "About",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
-]
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/About.vue"),
+  },
+];
 
 const router = new VueRouter({
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;
