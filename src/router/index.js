@@ -21,7 +21,7 @@ const routes = [
   },
   {
     path: "/isolatedserver",
-    name: "isolatedserver",
+    name: "zilliqa-isolated-server",
     component: IsolatedServer,
   },
   {

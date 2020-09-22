@@ -7,33 +7,18 @@ const isDevelopment = process.env.NODE_ENV !== "production";
 
 const fixPath = require("fix-path");
 fixPath();
-import { execFile } from "child_process";
+import { spawn } from "child_process";
 
 //const test = spawn('node', [process.resourcePath + '/extra/server.js']);
 
-if (!isDevelopment) {
-  const test = execFile(
-    "node",
-    [process.resourcesPath + "/extra/server.js"],
-    (error, stdout) => {
-      if (error) {
-        throw error;
-      }
-      console.log(stdout);
-    }
-  );
+let ceresApi = false;
 
-  test.stdout.on("data", (data) => {
-    console.log(`stdout: ${data}`);
-  });
-
-  test.stderr.on("data", (data) => {
-    console.error(`stderr: ${data}`);
-  });
-
-  test.on("close", (code) => {
-    console.log(`child process exited with code ${code}`);
-  });
+try {
+  require.resolve("ceres-api");
+  console.log("ceres-api exists");
+  ceresApi = true;
+} catch (e) {
+  console.log("ceres-api not found");
 }
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -48,11 +33,11 @@ protocol.registerSchemesAsPrivileged([
 function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
-    width: 1000,
+    width: 980,
     height: 730,
     frame: false,
-    titleBarStyle: "hidden",
     backgroundColor: "#222",
+    show: false,
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
@@ -60,10 +45,56 @@ function createWindow() {
     },
   });
 
+  if (ceresApi === false) {
+    ceresApi = spawn("npm", ["install", "https://github.com/micovi/ceres-api"]);
+
+    ceresApi.stderr.on("data", (data) => {
+      console.log(`stderr: ${data}`);
+    });
+
+    ceresApi.on("close", (code) => {
+      console.log(`ceresApi install process exited with code ${code}`);
+
+      ceresApi = spawn("npm", ["run", "start-api"]);
+
+      console.log("Starting ceres-api");
+
+      ceresApi.stdout.on("data", (data) => {
+        console.log(data);
+        win.show();
+      });
+
+      ceresApi.stderr.on("data", (data) => {
+        console.log(`stderr: ${data}`);
+      });
+
+      ceresApi.on("close", (code) => {
+        console.log(`ceresApi process exited with code ${code}`);
+      });
+    });
+  } else {
+    ceresApi = spawn("npm", ["run", "start-api"]);
+
+    console.log("Starting ceres-api");
+
+    ceresApi.stdout.on("data", (data) => {
+      console.log(data.toString());
+      win.show();
+    });
+
+    ceresApi.stderr.on("data", (data) => {
+      console.log(`stderr: ${data}`);
+    });
+
+    ceresApi.on("close", (code) => {
+      console.log(`ceresApi process exited with code ${code}`);
+    });
+  }
+
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
     win.loadURL(process.env.WEBPACK_DEV_SERVER_URL);
-    // if (!process.env.IS_TEST) win.webContents.openDevTools()
+    if (!process.env.IS_TEST) win.webContents.openDevTools();
   } else {
     createProtocol("app");
     // Load the index.html when not in development
@@ -71,6 +102,7 @@ function createWindow() {
   }
 
   win.on("closed", () => {
+    ceresApi.kill();
     win = null;
   });
 }

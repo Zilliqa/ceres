@@ -1,7 +1,17 @@
 <template>
   <div class="metadata" v-if="container">
     <div class="state">
-      <span class="badge badge-dark mr-2">{{ container.name }}</span>
+      <span class="badge badge-dark mr-2 pl-0 text-uppercase"
+        >{{ container.name }}:</span
+      >
+      <a
+        class="badge mr-2"
+        :class="{
+          'badge-success': isRunning,
+          'badge-danger': !isRunning,
+        }"
+        >http://localhost:{{ container.Labels.hostPort }}</a
+      >
       <span
         class="badge mr-2"
         :class="{
@@ -10,15 +20,7 @@
         }"
         >{{ container.Status }}</span
       >
-      <a
-        class="badge mr-2"
-        :class="{
-          'badge-warning': isRunning,
-          'badge-secondary': !isRunning,
-        }"
-        >http://localhost:{{ container.Labels.hostPort }}</a
-      >
-      <span class="badge">{{ container.Id }}</span>
+      <span class="badge d-none">{{ container.Id }}</span>
     </div>
   </div>
 </template>

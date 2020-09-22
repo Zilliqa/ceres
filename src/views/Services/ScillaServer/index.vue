@@ -3,7 +3,7 @@
     <div class="details mb-4">
       <h2 class="subtitle font-weight-bold text-white">
         <img
-          src="@/assets/logo-scilla-server.png"
+          src="@/assets/logo-scillaserver.png"
           style="width:30px; height: 30px; object-fit:contain;"
         />
         {{ imageData.shortName }}

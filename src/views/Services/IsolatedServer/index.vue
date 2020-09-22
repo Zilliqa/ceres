@@ -3,12 +3,12 @@
     <div class="details mb-4">
       <h2 class="subtitle font-weight-bold text-white">
         <img
-          src="@/assets/logo-isolated-server.png"
+          src="@/assets/logo-zilliqa-isolated-server.png"
           style="width:30px; height: 30px; object-fit:contain;"
         />
         {{ imageData.shortName }}
       </h2>
-      <p class="description text-muted mb-4">
+      <p class="description text-white-50 mb-4">
         Zilliqa Isolated Server is a test server for dApp developers to quickly
         test their applications.
         <br />Transactions are validated immediately, hence improving the
@@ -16,9 +16,6 @@
       </p>
 
       <div class="metadata-container" v-if="containers.length">
-        <p class="font-weight-bold text-white mb-0">
-          Containers:
-        </p>
         <service-metadata
           :container="container"
           v-for="container in containers"
@@ -27,10 +24,6 @@
       </div>
     </div>
     <div class="not-installed" v-if="!container">
-      <!-- <div class="alert alert-info">
-        To use this service Ceres needs to download and build the image.<br />This
-        might take some time depending on your network connection.
-      </div> -->
       <div class="actions d-flex align-items-center" v-if="!loading">
         <button
           class="btn btn-lg btn-block btn-success font-weight-bold py-4"
@@ -46,17 +39,20 @@
           class="d-flex align-items-center"
           v-if="container.State !== 'running'"
         >
-          <button class="btn btn-success mr-4" @click="handleStartContainer">
+          <button
+            class="btn btn-success btn-block mr-4"
+            @click="handleStartContainer"
+          >
             Start Service
           </button>
           <button
             class="btn btn-link text-danger mr-4"
             @click="handleRemoveContainer"
           >
-            Uninstall Service
+            Uninstall
           </button>
         </div>
-        <button class="btn btn-danger" @click="handleStopContainer" v-else>
+        <button class="btn btn-danger btn-block" @click="handleStopContainer" v-else>
           Stop Service
         </button>
       </div>
