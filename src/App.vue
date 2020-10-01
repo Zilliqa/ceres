@@ -1,8 +1,5 @@
 <template>
   <div id="app">
-    <div class="top-bar">
-      <img src="@/assets/cancel.svg" />
-    </div>
     <nav class="top-navbar navbar navbar-dark bg-dark">
       <a
         class="navbar-brand mb-0 h1 d-flex align-items-center has-link"
@@ -97,30 +94,6 @@ body {
 #app {
   width: 100%;
   height: 100%;
-}
-
-.top-bar {
-  height: 18px;
-  width: 100%;
-  padding-left: 5px;
-  background-color: lighten($body-bg, 2);
-  display: flex;
-  align-items: center;
-
-  img {
-    height: 8px;
-    cursor: pointer;
-  }
-}
-
-.top-navbar {
-  -webkit-user-select: none;
-  -webkit-app-region: drag;
-
-  a,
-  button {
-    -webkit-app-region: no-drag;
-  }
 }
 
 .has-link {

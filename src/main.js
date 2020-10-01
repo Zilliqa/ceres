@@ -12,6 +12,10 @@ import Notifications from "vue-notification";
 
 Vue.use(Notifications);
 
+process.on('unhandledRejection', (error) => {
+  console.error(error)
+})
+
 new Vue({
   router,
   store,

@@ -1,9 +1,15 @@
 module.exports = {
   pluginOptions: {
     electronBuilder: {
+      nodeIntegration: true,
       builderOptions: {
-        extraResources: ["./extra/**"],
-      },
+        extraResources: [
+          "extra",
+        ],
+        extraFiles: [
+          "extra",
+        ]
+      }
     },
   },
   css: {
