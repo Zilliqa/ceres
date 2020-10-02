@@ -38,6 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var _this = this;
 var express = require("express");
 var bodyParser = require("body-parser");
+var path = require("path");
 var cors = require("cors");
 var app = express();
 var port = 3939;
@@ -377,13 +378,14 @@ io.on("connection", function (socket) {
         });
     });
     socket.on("build-image", function (image) { return __awaiter(_this, void 0, void 0, function () {
-        var name, file, labels;
+        var name, fileName, labels, file;
         var _this = this;
         return __generator(this, function (_a) {
             name = image.image;
-            file = "./images/" + name + ".tar.gz";
+            fileName = name + ".tar.gz";
             labels = image.labels;
             console.log("Build image: " + image.image);
+            file = path.join(path.dirname(__dirname), 'extra', 'images', fileName);
             docker.image
                 .build(file, {
                 t: name,
