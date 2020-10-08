@@ -81,6 +81,13 @@ var registerInNetwork = function (containerData) { return __awaiter(_this, void 
         }
     });
 }); };
+app.get("/docker-status", function (req, res) {
+    docker.ping().then(function (result) {
+        res.json(result);
+    }).catch(function (err) {
+        res.json(err);
+    });
+});
 app.get("/container/running", function (req, res) {
     docker.container
         .list({ filters: { label: ["ceres"] } })

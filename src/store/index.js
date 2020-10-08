@@ -85,5 +85,8 @@ export default new Vuex.Store({
     },
   },
   actions: {},
+  getters: {
+    dockerStatus: (state) => state.docker.running,
+  },
   modules: {},
 });

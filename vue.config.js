@@ -3,13 +3,12 @@ module.exports = {
     electronBuilder: {
       nodeIntegration: true,
       builderOptions: {
-        extraResources: [
-          "extra",
-        ],
-        extraFiles: [
-          "extra",
-        ]
-      }
+        appId: "com.ceres.app",
+        productName: "Ceres",
+        copyright: "Copyright © 2020 Zilliqa",
+        extraResources: ["extra"],
+        extraFiles: ["extra"],
+      },
     },
   },
   css: {

@@ -23,6 +23,7 @@
 <script>
 import StatusBadge from "./StatusBadge";
 import PortBadge from "./PortBadge";
+import { mapGetters } from "vuex";
 
 import axios from "axios";
 export default {
@@ -39,12 +40,22 @@ export default {
     },
   },
   computed: {
+    ...mapGetters(["dockerStatus"]),
     image() {
       return require(`@/assets/logo-${this.service.slug}.png`);
     },
   },
-  async created() {
-    await this.getContainersData();
+  async mounted() {
+    if (this.dockerStatus === true) {
+      await this.getContainersData();
+    }
+  },
+  watch: {
+    dockerStatus(newVal, oldVal) {
+      if (newVal !== oldVal && newVal === true) {
+        return this.getContainersData();
+      }
+    },
   },
   methods: {
     redirectToService(service) {
@@ -138,8 +149,8 @@ export default {
     justify-content: center;
 
     img {
-      width: 100%;
-      height: 100%;
+      width: auto;
+      max-height: 48px;
       object-fit: contain;
     }
   }
