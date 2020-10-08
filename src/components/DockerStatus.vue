@@ -2,8 +2,13 @@
   <div class="text-light d-flex align-items-center">
     <small class="text-muted">Docker status:</small>
 
-    <span class="ml-2 badge badge-success" v-if="running">RUNNING</span>
-    <span class="ml-2 badge badge-danger" v-else>STOPPED</span>
+    <span class="ml-2" v-if="running === undefined">loading</span>
+    <span class="ml-2 badge badge-success" v-if="running === true">
+      RUNNING
+    </span>
+    <span class="ml-2 badge badge-danger" v-if="running === false">
+      STOPPED
+    </span>
   </div>
 </template>
 
@@ -12,7 +17,7 @@ export default {
   name: "DockerStatus",
   data() {
     return {
-      running: false,
+      running: undefined,
     };
   },
   methods: {
@@ -30,7 +35,8 @@ export default {
         });
     },
   },
-  created() {
+  async created() {
+    this.checkDockerStatus();
     setInterval(() => {
       this.checkDockerStatus();
     }, 3000);
