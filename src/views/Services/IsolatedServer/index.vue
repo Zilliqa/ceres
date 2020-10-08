@@ -23,74 +23,79 @@
         ></service-metadata>
       </div>
     </div>
-    <div class="not-installed" v-if="!container">
-      <div class="actions d-flex align-items-center" v-if="!loading">
-        <button
-          class="btn btn-lg btn-block btn-success font-weight-bold py-4"
-          @click="handleBuildContainer"
-        >
-          Download & install
-        </button>
-      </div>
-    </div>
-    <div class="is-installed mt-4" v-else>
-      <div class="actions" v-if="!loading">
-        <div
-          class="d-flex align-items-center"
-          v-if="container.State !== 'running'"
-        >
+    <div class="actions" v-if="dockerStatus === true">
+      <div class="not-installed" v-if="!container">
+        <div class="actions d-flex align-items-center" v-if="!loading">
           <button
-            class="btn btn-success btn-block mr-4"
-            @click="handleStartContainer"
+            class="btn btn-lg btn-block btn-success font-weight-bold py-4"
+            @click="handleBuildContainer"
           >
-            Start Service
-          </button>
-          <button
-            class="btn btn-link text-danger mr-4"
-            @click="handleRemoveContainer"
-          >
-            Uninstall
+            Download & install
           </button>
         </div>
-        <button class="btn btn-danger btn-block" @click="handleStopContainer" v-else>
-          Stop Service
-        </button>
       </div>
-    </div>
-
-    <div class="loading" v-if="loading">
-      <div class="alert alert-info">
-        {{ loading }}
-      </div>
-    </div>
-
-    <div class="tabs-container bg-dark mt-4">
-      <ul class="nav nav-tabs">
-        <li
-          class="nav-item"
-          :class="{ active: tab === 'logs' }"
-          @click="tab = 'logs'"
-        >
-          <a class="nav-link" href="#">Logs</a>
-        </li>
-        <li class="nav-item d-none" :class="{ active: tab === 'accounts' }">
-          <a>Accounts (boot.json)</a>
-        </li>
-        <li class="nav-item d-none" :class="{ active: tab === 'request' }">
-          <a>API Request</a>
-        </li>
-      </ul>
-
-      <div class="tabs-content bg-dark">
-        <div class="tab-logs bg-dark" v-if="tab === 'logs'">
-          <log-row
-            v-for="(log, index) in logs"
-            :key="index"
-            :log="log"
-          ></log-row>
+      <div class="is-installed mt-4" v-else>
+        <div class="actions" v-if="!loading">
+          <div
+            class="d-flex align-items-center"
+            v-if="container.State !== 'running'"
+          >
+            <button
+              class="btn btn-success btn-block mr-4"
+              @click="handleStartContainer"
+            >
+              Start Service
+            </button>
+            <button
+              class="btn btn-link text-danger mr-4"
+              @click="handleRemoveContainer"
+            >
+              Uninstall
+            </button>
+          </div>
+          <button
+            class="btn btn-danger btn-block"
+            @click="handleStopContainer"
+            v-else
+          >
+            Stop Service
+          </button>
         </div>
-        <div class="tab-accounts" v-if="tab === 'accounts'">
-          <pre style="background-color: #111; color: #eee;">
+      </div>
+
+      <div class="loading" v-if="loading">
+        <div class="alert alert-info">
+          {{ loading }}
+        </div>
+      </div>
+
+      <div class="tabs-container bg-dark mt-4">
+        <ul class="nav nav-tabs">
+          <li
+            class="nav-item"
+            :class="{ active: tab === 'logs' }"
+            @click="tab = 'logs'"
+          >
+            <a class="nav-link" href="#">Logs</a>
+          </li>
+          <li class="nav-item d-none" :class="{ active: tab === 'accounts' }">
+            <a>Accounts (boot.json)</a>
+          </li>
+          <li class="nav-item d-none" :class="{ active: tab === 'request' }">
+            <a>API Request</a>
+          </li>
+        </ul>
+
+        <div class="tabs-content bg-dark">
+          <div class="tab-logs bg-dark" v-if="tab === 'logs'">
+            <log-row
+              v-for="(log, index) in logs"
+              :key="index"
+              :log="log"
+            ></log-row>
+          </div>
+          <div class="tab-accounts" v-if="tab === 'accounts'">
+            <pre style="background-color: #111; color: #eee;">
           {
             "d90f2e538ce0df89c8273cad3b63ec44a3c4ed82": {
               "privateKey": "e53d1c3edaffc7a7bab5418eb836cf75819a82872b4a1a0f1c7fcf5c3e020b89",
@@ -138,9 +143,15 @@
               "nonce": 0
             }
           }
-          </pre>
+          </pre
+            >
+          </div>
         </div>
       </div>
+    </div>
+    <div class="alert alert-danger" v-else>
+      In order to run Zilliqa Containers you need to have Docker running in your
+      system.
     </div>
   </div>
 </template>
@@ -150,6 +161,7 @@ import axios from "axios";
 import LogRow from "@/components/LogRow";
 import sockets from "@/mixins/sockets";
 import ServiceMetadata from "@/components/Service/Metadata";
+import { mapGetters } from "vuex";
 
 export default {
   name: "IsolatedServer",
@@ -195,6 +207,9 @@ export default {
     };
   },
   mixins: [sockets],
+  computed: {
+    ...mapGetters(["dockerStatus"]),
+  },
   watch: {
     logs: function() {
       document.querySelector(
