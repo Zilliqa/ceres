@@ -4,15 +4,16 @@
       <h2 class="subtitle font-weight-bold text-white">
         <img
           src="@/assets/logo-zilliqa-isolated-server.png"
-          style="width:30px; height: 30px; object-fit:contain;"
+          style="width: 30px; height: 30px; object-fit: contain"
         />
         {{ imageData.shortName }}
       </h2>
       <p class="description text-white-50 mb-4">
-        Zilliqa Isolated Server is a test server for dApp developers to quickly
-        test their applications.
-        <br />Transactions are validated immediately, hence improving the
-        productivity for dApp developers.
+        Zilliqa Isolated Server is a test server that simulates the Zilliqa
+        blockchain locally. dApp developers can use it to speed up testing of
+        their applications. Transactions sent to the Isolated Server are
+        validated immediately, hence improving the productivity for dApp
+        developers.
       </p>
 
       <div class="metadata-container" v-if="containers.length">
@@ -81,8 +82,13 @@
           <li class="nav-item d-none" :class="{ active: tab === 'accounts' }">
             <a>Accounts (boot.json)</a>
           </li>
-          <li class="nav-item d-none" :class="{ active: tab === 'request' }">
-            <a>API Request</a>
+          <li
+            class="nav-item"
+            :class="{ active: tab === 'faucet' }"
+            @click="tab = 'faucet'"
+            v-if="container && container.State === 'running'"
+          >
+            <a class="nav-link" href="#">Faucet Request</a>
           </li>
         </ul>
 
@@ -94,8 +100,24 @@
               :log="log"
             ></log-row>
           </div>
+          <div class="tab-faucet" v-if="tab === 'faucet'">
+            <label>Enter account address:</label>
+            <input
+              type="text"
+              class="form-control mb-4"
+              placeholder="0x05C8F25019d8A77a9a09743342C9b61ae7FB5270"
+              v-model="faucetCallAddress"
+            />
+            <div
+              class="btn btn-success"
+              @click="handleRequest"
+              v-if="!faucetCallLoading"
+            >
+              Request funds
+            </div>
+          </div>
           <div class="tab-accounts" v-if="tab === 'accounts'">
-            <pre style="background-color: #111; color: #eee;">
+            <pre style="background-color: #111; color: #eee">
           {
             "d90f2e538ce0df89c8273cad3b63ec44a3c4ed82": {
               "privateKey": "e53d1c3edaffc7a7bab5418eb836cf75819a82872b4a1a0f1c7fcf5c3e020b89",
@@ -168,6 +190,8 @@ export default {
   components: { LogRow, ServiceMetadata },
   data() {
     return {
+      faucetCallAddress: undefined,
+      faucetCallLoading: false,
       service: null,
       container: undefined,
       containers: [],
@@ -211,7 +235,7 @@ export default {
     ...mapGetters(["dockerStatus"]),
   },
   watch: {
-    logs: function() {
+    logs: function () {
       document.querySelector(
         ".tabs-content"
       ).scrollTop = document.querySelector(".tab-logs").scrollHeight;
@@ -221,6 +245,32 @@ export default {
     await this.getContainerData();
   },
   methods: {
+    async handleRequest() {
+      this.faucetCallLoading = true;
+      const response = await axios.post(
+        `http://localhost:${this.secondaryImages[0].labels.hostPort}/request-funds`,
+        { address: this.faucetCallAddress }
+      );
+      this.faucetCallLoading = false;
+
+      if (response.data.success === true) {
+        this.faucetCallSuccess = true;
+        this.faucetCallAddress = undefined;
+        this.$notify({
+          group: "ceres",
+          type: "success",
+          title: "Faucet call",
+          text: `Funds requested successfully from the faucet.`,
+        });
+      } else {
+        this.$notify({
+          group: "ceres",
+          type: "error",
+          title: "Faucet call failed",
+          text: response.data,
+        });
+      }
+    },
     async installSecondaryImages() {
       await Promise.all(
         this.secondaryImages.map(async (image) => {
@@ -251,9 +301,9 @@ export default {
 
         this.$notify({
           group: "ceres",
-          type: "success",
+          type: "info",
           title: "Installation result",
-          text: `${this.imageData.shortName} has been successfully installed on your system.`,
+          text: `${this.imageData.shortName} has been installed on your system. Please wait while the FAUCET server is installed... 1/2`,
         });
 
         await this.installSecondaryImages();
@@ -373,15 +423,24 @@ export default {
   }
   li.nav-item {
     border-radius: 8px;
+    background-color: #222;
+    border-radius: 0;
+
     &.active {
-      //background-color: #333;
+      background-color: transparent;
       a {
         color: #29ccc4;
+
+        border: 1px solid #29ccc4;
         border-bottom-color: lighten(#222, 2);
       }
     }
     a {
       color: #fff;
+      &:hover {
+        border: 1px solid #29ccc4;
+        border-bottom-color: lighten(#222, 2);
+      }
     }
   }
   .tabs-content {
@@ -390,6 +449,13 @@ export default {
     background-color: #111;
     overflow-y: scroll;
     padding: 1rem;
+  }
+
+  input.form-control {
+    background-color: #222;
+    border: 0;
+    border-radius: 0;
+    color: #fff;
   }
 }
 </style>

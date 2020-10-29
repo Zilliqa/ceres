@@ -2,13 +2,13 @@
   <div class="container d-flex flex-column justify-content-center">
     <div class="description mb-5">
       <h4>
-        <span class="text-primary font-weight-bold">Ceres</span> is a graphical
-        user interface that runs different Zilliqa development tools under
-        Docker containers without the need of user knowing how to use docker or
-        run it's commands.<br /><br />
+        <span class="text-primary font-weight-bold">Ceres</span> is a one-stop
+        graphical user interface that launches different Zilliqa development
+        tools under Docker containers without the need for developers to know
+        Docker or run any of its commands.<br /><br />
         <small class="font-italic">
-          You can focus on Scilla development because Ceres manages Zilliqa
-          Tools for you.
+          You can focus on dapp development and let Ceres manage the necessary
+          tools for you.
         </small>
       </h4>
     </div>
@@ -47,5 +47,9 @@ export default {
 
     grid-template-columns: 1fr 1fr 1fr;
   }
+}
+
+small.font-italic {
+  font-size: 75%;
 }
 </style>

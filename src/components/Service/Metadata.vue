@@ -4,14 +4,15 @@
       <span class="badge badge-dark mr-2 pl-0 text-uppercase"
         >{{ container.name }}:</span
       >
-      <a
-        class="badge mr-2"
+      <copy-to-clipboard
+        class="badge copy-to-clipboard mr-2"
         :class="{
           'badge-success': isRunning,
           'badge-danger': !isRunning,
         }"
-        >http://localhost:{{ container.Labels.hostPort }}</a
-      >
+        title="Click to copy"
+        :text="`http://localhost:${container.Labels.hostPort}`"
+      />
       <span
         class="badge mr-2"
         :class="{
@@ -26,12 +27,16 @@
 </template>
 
 <script>
+import CopyToClipboard from "@/components/CopyToClipboard";
 export default {
   name: "ServiceMetadata",
   props: {
     container: {
       type: Object,
     },
+  },
+  components: {
+    CopyToClipboard,
   },
   computed: {
     isRunning() {
