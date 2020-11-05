@@ -21,7 +21,7 @@ addons:
 
 build:
   script:
-    - ./script/ci_build.sh
+    - ./scripts/ci_build.sh
 
 
 deploy:
