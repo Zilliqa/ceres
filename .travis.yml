@@ -2,31 +2,31 @@ language: generic
 sudo: required
 
 
-matrix:
+
+jobs:
   include:
     - os: linux
-      dist: xenial
+      dist: bionic
+      node_js:
+        - 12.10
+    - os: osx
+      osx_image: xcode12
+      node_js:
+        - 12.10
 
+script: ./scripts/ci_build.sh
 
-addons:
-  apt:
-    update: true
-    package:
-    - build-essential
-    - git
-    - curl
-    - zip
-    - unzip
-
-
-build:
-  script:
-    - ./scripts/ci_build.sh
 
 
 deploy:
   provider: releases
-  api_key: $GITHUB_OAUTH
+  name: $TRAVIS_TAG
+  api_key: $GITHUB_OAUTH_TOKEN
+  file_glob: true
+  file: dist_electron/*
   skip_cleanup: true
+  draft: true
   on:
     tags: true
+
+
