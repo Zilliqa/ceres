@@ -77,12 +77,11 @@ npm run electron:build
 
 echo "Prepare Packages"
 if [ "$TRAVIS_OS_NAME" == "osx" ]; then
-    tar -czvf "dist_electron/mac/Ceres.tar.gz" "dist_electron/mac"
-    mv "dist_electron/mac/Ceres.tar.gz" "dist_electron/Ceres.tar.gz"
+    tar -czvf "dist_electron/Ceres.tar.gz" "dist_electron/mac"
     rm -rf "dist_electron/mac"
 else
-    tar -czvf "dist_electron/linux_unpacked.tar.gz" "dist_electron/linux_unpacked"
-    rm -rf "dist_electron/linux_unpacked"
+    tar -czvf "dist_electron/linux-unpacked.tar.gz" "dist_electron/linux-unpacked"
+    rm -rf "dist_electron/linux-unpacked"
 fi
 
 
