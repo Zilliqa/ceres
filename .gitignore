@@ -2,6 +2,9 @@
 node_modules
 /dist
 
+/images
+/extra/images
+
 
 # local env files
 .env.local
