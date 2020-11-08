@@ -2,6 +2,7 @@ module.exports = {
   pluginOptions: {
     electronBuilder: {
       nodeIntegration: true,
+      buildResources: "./build",
       builderOptions: {
         appId: "com.ceres.app",
         productName: "Ceres",

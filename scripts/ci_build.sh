@@ -1,13 +1,17 @@
 #!/bin/bash
 echo $(pwd)
 
-
-
 echo "Pre-build setup"
 ORIGIN_DIR=$(pwd)
 echo "$ORIGIN_DIR"
 
+echo "Build Ceres API"
+git clone https://github.com/micovi/ceres-api extra/ceres-api
+cd extra/ceres-api
+mkdir images
+npm install
 
+cd "$ORIGIN_DIR"
 
 echo "Creating Dev-Explorer Image"
 mkdir -p "images/devex"
@@ -24,10 +28,9 @@ echo '{
      {"https://zilliqa-isolated-server.zilliqa.com" : "Isolated Server"}
    ]
  }' >> ./images/devex/public/networks.json
-tar czf ./images/devex.tar.gz -C ./images/devex .
-cp ./images/devex.tar.gz ./extra/images/devex.tar.gz
-rm -rf ./images/devex
 
+tar czf ./extra/ceres-api/images/devex.tar.gz -C ./images/devex .
+rm -rf ./images/devex
 
 
 echo "Creating Scilla Server Image"
@@ -37,8 +40,7 @@ cd "images/scillaserver"
 git init
 git pull https://$GITHUB_OAUTH_TOKEN@github.com/zilliqa/scilla-server master
 cd "$ORIGIN_DIR"
-tar czf ./images/scillaserver.tar.gz -C ./images/scillaserver .
-cp ./images/scillaserver.tar.gz ./extra/images/scillaserver.tar.gz
+tar czf ./extra/ceres-api/images/scillaserver.tar.gz -C ./images/scillaserver .
 rm -rf ./images/scillaserver
 
 
@@ -50,10 +52,8 @@ cd "images/zilliqa-isolated-server"
 git init
 git pull https://$GITHUB_OAUTH_TOKEN@github.com/zilliqa/zilliqa-isolated-server master
 cd "$ORIGIN_DIR"
-tar czf ./images/zilliqa-isolated-server.tar.gz -C ./images/zilliqa-isolated-server .
-cp ./images/zilliqa-isolated-server.tar.gz ./extra/images/zilliqa-isolated-server.tar.gz
+tar czf ./extra/ceres-api/images/zilliqa-isolated-server.tar.gz -C ./images/zilliqa-isolated-server .
 rm -rf ./images/zilliqa-isolated-server
-
 
 
 echo "Creating Isolated Server Faucet Image"
@@ -63,8 +63,7 @@ cd "images/zilliqa-isolated-server-faucet"
 git init
 git pull https://$GITHUB_OAUTH_TOKEN@github.com/zilliqa/zilliqa-isolated-server-faucet master
 cd "$ORIGIN_DIR"
-tar czf ./images/zilliqa-isolated-server-faucet.tar.gz -C ./images/zilliqa-isolated-server-faucet .
-cp ./images/zilliqa-isolated-server-faucet.tar.gz ./extra/images/zilliqa-isolated-server-faucet.tar.gz
+tar czf ./extra/ceres-api/images/zilliqa-isolated-server-faucet.tar.gz -C ./images/zilliqa-isolated-server-faucet .
 rm -rf ./images/zilliqa-isolated-server-faucet
 
 
@@ -77,7 +76,7 @@ npm run electron:build
 
 echo "Prepare Packages"
 if [ "$TRAVIS_OS_NAME" == "osx" ]; then
-    tar -czvf "dist_electron/Ceres.tar.gz" "dist_electron/mac"
+    tar -czvf "dist_electron/macos-unpacked.tar.gz" "dist_electron/mac"
     rm -rf "dist_electron/mac"
 else
     tar -czvf "dist_electron/linux-unpacked.tar.gz" "dist_electron/linux-unpacked"

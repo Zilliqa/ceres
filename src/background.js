@@ -22,7 +22,7 @@ protocol.registerSchemesAsPrivileged([
 ]);
 
 function createWindow() {
-  const apiLocation = path.join(path.dirname(__dirname), 'extra', 'index.js');
+  const apiLocation = path.join(path.dirname(__dirname), 'extra', 'ceres-api', 'dist', 'index.js');
   console.log(`Starting ceres-api from ${apiLocation}`);
   let ceresApi = spawn("node", [apiLocation]);
   // Create the browser window.

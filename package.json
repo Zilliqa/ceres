@@ -2,7 +2,7 @@
   "name": "ceres",
   "author": "Ovidiu Miclea (micovi)",
   "description": "Local Zilliqa Network based on Isolated Server",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "scripts": {
     "start-api": "ceres-api",
@@ -30,7 +30,7 @@
     "node-docker-api": "^1.1.22",
     "shebang-loader": "0.0.1",
     "socket.io": "^2.3.0",
-    "socket.io-client": "^2.3.0",
+    "socket.io-client": "^2.3.1",
     "vue": "^2.6.11",
     "vue-notification": "^1.3.20",
     "vue-router": "^3.2.0",
