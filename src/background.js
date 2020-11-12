@@ -61,16 +61,23 @@ async function createWindow() {
 
   const updateExists = await autoUpdater.checkForUpdatesAndNotify();
 
-  autoUpdater.once('update-downloaded', info => {
+  autoUpdater.once('update-downloaded', async info => {
     let options = {
       title: "Ceres Update available to install",
       buttons: ["Yes", "Cancel"],
       message: `A new Ceres update has been downloaded and is available for you to install. (${info.version} - ${info.releaseName}). You have to restart the app to apply the update. Do you want to update to the newest version?`
     }
 
-    let dialogResponse = dialog.showMessageBox(options)
-    if (dialogResponse === 0) {
-      autoUpdater.quitAndInstall();
+    let dialogResponse = await dialog.showMessageBox(options)
+
+    console.log(dialogResponse.response);
+    if (dialogResponse.response === 0) {
+      setImmediate(() => {
+        console.log('perform update');
+        app.removeAllListeners("window-all-closed")
+        autoUpdater.quitAndInstall()
+        app.quit()
+      })
     }
   });
 

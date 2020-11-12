@@ -7,7 +7,12 @@ module.exports = {
         "hardenedRuntime": true,
         "gatekeeperAssess": false,
         "entitlements": "build/entitlements.mac.plist",
-        "entitlementsInherit": "build/entitlements.mac.plist"
+        "entitlementsInherit": "build/entitlements.mac.plist",
+        "extendInfo": {
+          "NSAppTransportSecurity": {
+            "NSAllowsArbitraryLoads": true
+          }
+        },
       },
       build: {
         "afterSign": "scripts/notarize.js",
