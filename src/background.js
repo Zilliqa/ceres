@@ -1,6 +1,6 @@
 "use strict";
 
-import { app, protocol, BrowserWindow } from "electron";
+import { app, protocol, BrowserWindow, dialog } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
 import path from "path";
@@ -59,7 +59,20 @@ async function createWindow() {
 
   console.log('checking for update');
 
-  const updateExists = await autoUpdater.checkForUpdatesAndNotify()
+  const updateExists = await autoUpdater.checkForUpdatesAndNotify();
+
+  autoUpdater.once('update-downloaded', info => {
+    let options = {
+      title: "Ceres Update available to install",
+      buttons: ["Yes", "Cancel"],
+      message: `A new Ceres update has been downloaded and is available for you to install. (${info.version} - ${info.releaseName}). You have to restart the app to apply the update. Do you want to update to the newest version?`
+    }
+
+    let dialogResponse = dialog.showMessageBox(options)
+    if (dialogResponse === 0) {
+      autoUpdater.quitAndInstall();
+    }
+  });
 
   console.log('update-exists', updateExists);
 
