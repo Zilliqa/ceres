@@ -4,6 +4,12 @@ import { app, protocol, BrowserWindow } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
 import path from "path";
+const { autoUpdater } = require("electron-updater");
+import log from "electron-log";
+
+autoUpdater.logger = log
+autoUpdater.logger.transports.file.level = "info"
+
 const isDevelopment = process.env.NODE_ENV !== "production";
 
 const fixPath = require("fix-path");
@@ -21,7 +27,7 @@ protocol.registerSchemesAsPrivileged([
   { scheme: "app", privileges: { secure: true, standard: true } },
 ]);
 
-function createWindow() {
+async function createWindow() {
   const apiLocation = path.join(path.dirname(__dirname), 'extra', 'ceres-api', 'dist', 'index.js');
   console.log(`Starting ceres-api from ${apiLocation}`);
   let ceresApi = spawn("node", [apiLocation]);
@@ -43,13 +49,19 @@ function createWindow() {
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
-    win.loadURL(process.env.WEBPACK_DEV_SERVER_URL);
+    await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL);
     if (!process.env.IS_TEST) win.webContents.openDevTools();
   } else {
     createProtocol("app");
     // Load the index.html when not in development
     win.loadURL("app://./index.html");
   }
+
+  console.log('checking for update');
+
+  const updateExists = await autoUpdater.checkForUpdatesAndNotify()
+
+  console.log('update-exists', updateExists);
 
   win.on("closed", () => {
     ceresApi.kill();
