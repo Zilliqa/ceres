@@ -31,6 +31,13 @@ As an explorer, Devex is unable to interact with the blockchain other than pulli
 
 Network Exporer runs on port 5557. You can access it from any browser on http://localhost:5557
 
+
+## DEBUG
+By default, Ceres Logs are written:
+- on Linux: ~/.config/Ceres/logs/main.log
+- on macOS: ~/Library/Logs/Ceres/main.log
+- on Windows: %USERPROFILE%\AppData\Roaming\Ceres\logs\main.log
+
 ## Development commands
 Open the application with Dev-Tools enabled.
 ```bash
