@@ -72,11 +72,13 @@ async function createWindow() {
 
     console.log(dialogResponse.response);
     if (dialogResponse.response === 0) {
+
       setImmediate(() => {
-        console.log('perform update');
         app.removeAllListeners("window-all-closed")
-        autoUpdater.quitAndInstall()
-        app.quit()
+        if (win != null) {
+          win.destroy();
+        }
+        autoUpdater.quitAndInstall(false)
       })
     }
   });
