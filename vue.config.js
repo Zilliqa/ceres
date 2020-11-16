@@ -4,40 +4,52 @@ module.exports = {
       nodeIntegration: true,
       buildResources: "./build",
       linux: {
-        target: ["AppImage","deb","zip"],
-        icon: "32x32.png"
+        target: [
+          {
+            target: "AppImage",
+            icon: "32x32.png",
+          },
+          {
+            target: "deb",
+            icon: "32x32.png",
+          },
+          {
+            target: "zip",
+            icon: "32x32.png",
+          },
+        ],
       },
       mac: {
-        "hardenedRuntime": true,
-        "gatekeeperAssess": false,
-        "entitlements": "build/entitlements.mac.plist",
-        "entitlementsInherit": "build/entitlements.mac.plist",
-        "extendInfo": {
-          "NSAppTransportSecurity": {
-            "NSAllowsArbitraryLoads": true
-          }
+        hardenedRuntime: true,
+        gatekeeperAssess: false,
+        entitlements: "build/entitlements.mac.plist",
+        entitlementsInherit: "build/entitlements.mac.plist",
+        extendInfo: {
+          NSAppTransportSecurity: {
+            NSAllowsArbitraryLoads: true,
+          },
         },
       },
       build: {
-        "afterSign": "scripts/notarize.js",
-        "publish": {
-          "provider": "github",
-          "owner": "zilliqa",
-          "repo": "ceres"
-        }
+        afterSign: "scripts/notarize.js",
+        publish: {
+          provider: "github",
+          owner: "zilliqa",
+          repo: "ceres",
+        },
       },
-      "dmg": {
-        "sign": false
+      dmg: {
+        sign: false,
       },
       builderOptions: {
         appId: "com.ceres.app",
         productName: "Ceres",
         copyright: "Copyright © 2020 Zilliqa",
-        extraResources: ["extra"],
-        extraFiles: ["extra"],
-        "afterSign": "scripts/notarize.js"
+        extraResources: ["extra", "build"],
+        extraFiles: ["extra", "build"],
+        afterSign: "scripts/notarize.js",
       },
-      publish: ["github"]
+      publish: ["github"],
     },
   },
   css: {

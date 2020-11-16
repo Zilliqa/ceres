@@ -7,8 +7,8 @@ import path from "path";
 const { autoUpdater } = require("electron-updater");
 import log from "electron-log";
 
-autoUpdater.logger = log
-autoUpdater.logger.transports.file.level = "info"
+autoUpdater.logger = log;
+autoUpdater.logger.transports.file.level = "info";
 
 const isDevelopment = process.env.NODE_ENV !== "production";
 
@@ -28,7 +28,13 @@ protocol.registerSchemesAsPrivileged([
 ]);
 
 async function createWindow() {
-  const apiLocation = path.join(path.dirname(__dirname), 'extra', 'ceres-api', 'dist', 'index.js');
+  const apiLocation = path.join(
+    path.dirname(__dirname),
+    "extra",
+    "ceres-api",
+    "dist",
+    "index.js"
+  );
   console.log(`Starting ceres-api from ${apiLocation}`);
   let ceresApi = spawn("node", [apiLocation]);
   // Create the browser window.
@@ -42,7 +48,8 @@ async function createWindow() {
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
       nodeIntegrationInWorker: true,
       // devTools: false
-    }
+    },
+    icon: path.join(__dirname, "../build/512x512.png"),
   });
 
   win.show();
@@ -57,33 +64,32 @@ async function createWindow() {
     win.loadURL("app://./index.html");
   }
 
-  console.log('checking for update');
+  console.log("checking for update");
 
   const updateExists = await autoUpdater.checkForUpdatesAndNotify();
 
-  autoUpdater.once('update-downloaded', async info => {
+  autoUpdater.once("update-downloaded", async (info) => {
     let options = {
       title: "Ceres Update available to install",
       buttons: ["Yes", "Cancel"],
-      message: `A new Ceres update has been downloaded and is available for you to install. (${info.version} - ${info.releaseName}). You have to restart the app to apply the update. Do you want to update to the newest version?`
-    }
+      message: `A new Ceres update has been downloaded and is available for you to install. (${info.version} - ${info.releaseName}). You have to restart the app to apply the update. Do you want to update to the newest version?`,
+    };
 
-    let dialogResponse = await dialog.showMessageBox(options)
+    let dialogResponse = await dialog.showMessageBox(options);
 
     console.log(dialogResponse.response);
     if (dialogResponse.response === 0) {
-
       setImmediate(() => {
-        app.removeAllListeners("window-all-closed")
+        app.removeAllListeners("window-all-closed");
         if (win != null) {
           win.destroy();
         }
-        autoUpdater.quitAndInstall(false)
-      })
+        autoUpdater.quitAndInstall(false);
+      });
     }
   });
 
-  console.log('update-exists', updateExists);
+  console.log("update-exists", updateExists);
 
   win.on("closed", () => {
     ceresApi.kill();
