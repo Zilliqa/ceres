@@ -3,6 +3,10 @@ module.exports = {
     electronBuilder: {
       nodeIntegration: true,
       buildResources: "./build",
+      linux: {
+        target: ["AppImage","deb","zip"],
+        icon: "32x32.png"
+      },
       mac: {
         "hardenedRuntime": true,
         "gatekeeperAssess": false,
