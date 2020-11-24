@@ -28,7 +28,15 @@ protocol.registerSchemesAsPrivileged([
 ]);
 
 async function createWindow() {
-  const apiLocation = path.join(
+  const isWin = process.platform === "win32";
+
+  const apiLocation = isWin ? path.join(
+    path.dirname(__dirname),
+    "extra",
+    "ceres-api",
+    "dist",
+    "index-win.js"
+  ) : path.join(
     path.dirname(__dirname),
     "extra",
     "ceres-api",
