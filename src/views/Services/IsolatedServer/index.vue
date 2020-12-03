@@ -125,7 +125,7 @@
             </div>
           </div>
           <div class="tab-accounts" v-if="tab === 'accounts'">
-            <json-viewer :value="genesisAccounts"></json-viewer>
+            <vue-json-pretty :data="genesisAccounts"> </vue-json-pretty>
           </div>
         </div>
       </div>
@@ -143,11 +143,13 @@ import LogRow from "@/components/LogRow";
 import sockets from "@/mixins/sockets";
 import ServiceMetadata from "@/components/Service/Metadata";
 import { mapGetters } from "vuex";
-import JsonViewer from "vue-json-viewer";
+
+import VueJsonPretty from "vue-json-pretty";
+import "vue-json-pretty/lib/styles.css";
 
 export default {
   name: "IsolatedServer",
-  components: { LogRow, ServiceMetadata, JsonViewer },
+  components: { LogRow, ServiceMetadata, VueJsonPretty },
   data() {
     return {
       faucetCallAddress: undefined,
@@ -161,7 +163,7 @@ export default {
       socket: undefined,
       installLogs: [],
       genesisAccounts: {
-        "d90f2e538ce0df89c8273cad3b63ec44a3c4ed82": {
+        d90f2e538ce0df89c8273cad3b63ec44a3c4ed82: {
           privateKey:
             "e53d1c3edaffc7a7bab5418eb836cf75819a82872b4a1a0f1c7fcf5c3e020b89",
           amount: "90000000000000000000000",
@@ -173,13 +175,13 @@ export default {
           amount: "90000000000000000000000",
           nonce: 0,
         },
-        "b028055ea3bc78d759d10663da40d171dec992aa": {
+        b028055ea3bc78d759d10663da40d171dec992aa: {
           privateKey:
             "e7f59a4beb997a02a13e0d5e025b39a6f0adc64d37bb1e6a849a4863b4680411",
           amount: "90000000000000000000000",
           nonce: 0,
         },
-        "f6dad9e193fa2959a849b81caf9cb6ecde466771": {
+        f6dad9e193fa2959a849b81caf9cb6ecde466771: {
           privateKey:
             "589417286a3213dceb37f8f89bd164c3505a4cec9200c61f7c6db13a30a71b45",
           amount: "90000000000000000000000",
@@ -191,19 +193,19 @@ export default {
           amount: "1000000000000000000",
           nonce: 0,
         },
-        "ac941274c3b6a50203cc5e7939b7dad9f32a0c12": {
+        ac941274c3b6a50203cc5e7939b7dad9f32a0c12: {
           privateKey:
             "1080d2cca18ace8225354ac021f9977404cee46f1d12e9981af8c36322eac1a4",
           amount: "1000000000000000000",
           nonce: 0,
         },
-        "ec902fe17d90203d0bddd943d97b29576ece3177": {
+        ec902fe17d90203d0bddd943d97b29576ece3177: {
           privateKey:
             "254d9924fc1dcdca44ce92d80255c6a0bb690f867abde80e626fbfef4d357004",
           amount: "1000000000000000000",
           nonce: 0,
         },
-        "c2035715831ab100ec42e562ce341b834bed1f4c": {
+        c2035715831ab100ec42e562ce341b834bed1f4c: {
           privateKey:
             "b8fc4e270594d87d3f728d0873a38fb0896ea83bd6f96b4f3c9ff0a29122efe4",
           amount: "1000000000000000000",
