@@ -2,8 +2,17 @@
 Ceres is a graphical user interface that runs different Zilliqa development tools under Docker containers without the need of user knowing how to use docker or run it's commands.
 You can focus on Scilla development while Ceres manages Zilliqa Tools for you.
 
-## Requirements
+## System Requirements
+
+### MacOS / Linux
+- **NodeJS** v12 or newer
 - **Docker** - Zilliqa Services are based on docker containers and Ceres acts like a graphical interface on top of Docker.
+- Free ports on your system: 5555, 5556 for Isolated Server, 5557 for Network Explorer, 4000 for Scilla Server
+
+### WINDOWS
+- **NodeJS** v12 or newer
+- **WSL 2.0**
+- **Docker**
 - Free ports on your system: 5555, 5556 for Isolated Server, 5557 for Network Explorer, 4000 for Scilla Server
 
 ## Installation
