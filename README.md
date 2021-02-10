@@ -29,7 +29,7 @@ Isolated Server runs 2 containers that are tied togheter:
 
 ### Scilla Server
 A scilla-server provides the functionality of scilla-runner and scilla-checker as a JSON-RPC server. The scilla-server process accepts contract execution requests and executes the contract, providing a JSON output within the server process itself.
-More details about Scilla Server can be found here.
+More details about Scilla Server can be found [here](https://github.com/Zilliqa/scilla).
 
 Scilla Server runs on port 4000. You can call it's API on http://localhost:4000
 
