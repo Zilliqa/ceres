@@ -27,11 +27,8 @@
           </svg>
         </transition>
 
+        <img src="@/assets/Ceres-01.png" height="30px" alt="" />
         <span class="font-weight-bold text-primary">Ceres</span>
-        <span class="mx-1 text-muted">.</span>
-        <span class="font-weigh-light text-white-50">
-          local Zilliqa development tools
-        </span>
       </a>
 
       <docker-status />
