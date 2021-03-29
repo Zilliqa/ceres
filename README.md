@@ -40,6 +40,8 @@ As an explorer, Devex is unable to interact with the blockchain other than pulli
 
 Network Exporer runs on port 5557. You can access it from any browser on http://localhost:5557
 
+### Configuration
+In order for transactions to clear you will need to change your CHAIN_ID to the Ceres network id: `222`
 
 ## DEBUG
 By default, Ceres Logs are written:
