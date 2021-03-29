@@ -1,5 +1,5 @@
 # Ceres
-Ceres is a graphical user interface that runs different Zilliqa development tools under Docker containers without the need of user knowing how to use docker or run it's commands.
+[Ceres](https://dev.zilliqa.com/docs/dev/dev-tools-ceres) is a graphical user interface that runs different Zilliqa development tools under Docker containers without the need of user knowing how to use docker or run it's commands.
 You can focus on Scilla development while Ceres manages Zilliqa Tools for you.
 
 ## System Requirements
