@@ -1,5 +1,5 @@
 # Ceres
-Ceres is a graphical user interface that runs different Zilliqa development tools under Docker containers without the need of user knowing how to use docker or run it's commands.
+[Ceres](https://dev.zilliqa.com/docs/dev/dev-tools-ceres) is a graphical user interface that runs different Zilliqa development tools under Docker containers without the need of user knowing how to use docker or run it's commands.
 You can focus on Scilla development while Ceres manages Zilliqa Tools for you.
 
 ## System Requirements
@@ -40,6 +40,8 @@ As an explorer, Devex is unable to interact with the blockchain other than pulli
 
 Network Exporer runs on port 5557. You can access it from any browser on http://localhost:5557
 
+### Configuration
+In order for transactions to clear you will need to change your transaction's`CHAIN_ID` to the Ceres network id: `222`
 
 ## DEBUG
 By default, Ceres Logs are written:
