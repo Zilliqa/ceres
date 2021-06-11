@@ -95,3 +95,6 @@ This will output into the dist_electron directory the following files:
 
 ### 8. Release on Github
 In this step I manually tag and create a Release from master containing the artifacts from step 6 and 7.
+
+### 9. Todo
+lock services to release for each ceres release.
