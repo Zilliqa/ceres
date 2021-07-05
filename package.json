@@ -21,7 +21,7 @@
   },
   "main": "background.js",
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "bootstrap": "^4.5.2",
     "buefy": "^0.9.0",
     "ceres-api": "git+https://github.com/micovi/ceres-api.git",
