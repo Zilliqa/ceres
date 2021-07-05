@@ -72,8 +72,9 @@ if [ "$TRAVIS_OS_NAME" == "osx" ]; then
   KEY_CHAIN=build.keychain
   CERTIFICATE_P12=certificate.p12
 
-  # Recreate the certificate from the secure environment variable
-  echo $CERTIFICATE_OSX_P12 | base64 --decode > $CERTIFICATE_P12
+  # Recreate the certificate & password from the secure environment variable
+  echo $CERTIFICATE_OSX_P12_BASE64 | base64 --decode > $CERTIFICATE_P12
+  CERTIFICATE_PASSWORD=$(echo "$CERTIFICATE_PASSWORD_BASE64" | base64 --decode)
 
   #create a keychain
   security create-keychain -p travis $KEY_CHAIN
