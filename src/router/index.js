@@ -5,6 +5,7 @@ import Container from "../views/Container.vue";
 import IsolatedServer from "../views/Services/IsolatedServer";
 import ScillaServer from "../views/Services/ScillaServer";
 import Devex from "../views/Services/Devex";
+import Settings from "../views/Settings";
 
 Vue.use(VueRouter);
 
@@ -35,13 +36,9 @@ const routes = [
     component: Devex,
   },
   {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue"),
+    path: "/settings",
+    name: "Settings",
+    component: Settings
   },
 ];
 

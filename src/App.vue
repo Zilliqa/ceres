@@ -31,7 +31,10 @@
         <span class="font-weight-bold text-primary">Ceres</span>
       </a>
 
-      <docker-status />
+      <div class="d-flex justify-content-end">
+        <docker-status />
+        <settings-button />
+      </div>
     </nav>
     <transition name="fade" mode="out-in">
       <router-view />
@@ -42,10 +45,11 @@
 
 <script>
 import DockerStatus from "@/components/DockerStatus";
+import SettingsButton from "@/components/SettingsButton";
 
 export default {
   name: "Ceres",
-  components: { DockerStatus },
+  components: { DockerStatus, SettingsButton },
   computed: {
     isHome() {
       return this.$route.name === "home";
