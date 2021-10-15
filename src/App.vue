@@ -27,14 +27,14 @@
           </svg>
         </transition>
 
+        <img src="@/assets/Ceres-01.png" height="30px" alt="" />
         <span class="font-weight-bold text-primary">Ceres</span>
-        <span class="mx-1 text-muted">.</span>
-        <span class="font-weigh-light text-white-50">
-          local Zilliqa development tools
-        </span>
       </a>
 
-      <docker-status />
+      <div class="d-flex justify-content-end">
+        <docker-status />
+        <settings-button />
+      </div>
     </nav>
     <transition name="fade" mode="out-in">
       <router-view />
@@ -45,10 +45,11 @@
 
 <script>
 import DockerStatus from "@/components/DockerStatus";
+import SettingsButton from "@/components/SettingsButton";
 
 export default {
   name: "Ceres",
-  components: { DockerStatus },
+  components: { DockerStatus, SettingsButton },
   computed: {
     isHome() {
       return this.$route.name === "home";

@@ -4,7 +4,7 @@
       <h2 class="subtitle font-weight-bold text-white">
         <img
           src="@/assets/logo-devex.png"
-          style="width:30px; height: 30px; object-fit:contain;"
+          style="width: 30px; height: 30px; object-fit: contain"
         />
         {{ imageData.shortName }}
       </h2>
@@ -19,9 +19,7 @@
       </p>
 
       <div class="metadata-container" v-if="containers.length">
-        <p class="font-weight-bold text-white mb-0">
-          Containers:
-        </p>
+        <p class="font-weight-bold text-white mb-0">Containers:</p>
         <service-metadata
           :container="container"
           v-for="container in containers"
@@ -116,7 +114,7 @@ import ServiceMetadata from "@/components/Service/Metadata";
 import { mapGetters } from "vuex";
 
 export default {
-  name: "ScillaServer",
+  name: "Devex",
   components: { LogRow, ServiceMetadata },
   data() {
     return {
@@ -132,8 +130,8 @@ export default {
         shortName: "Network Explorer",
         badge: "Server",
         name: "Local Network Explorer",
-        image: "devex",
-        tarbal: "devex.tar.gz",
+        image: "zilliqa/devex",
+        tag: "latest",
         labels: {
           name: "Local Network Explorer",
           ceres: "devex",
@@ -141,6 +139,7 @@ export default {
           hostPort: "5557",
         },
       },
+      hubTags: [],
       secondaryImages: [],
     };
   },
@@ -149,16 +148,23 @@ export default {
     ...mapGetters(["dockerStatus"]),
   },
   watch: {
-    logs: function() {
-      document.querySelector(
-        ".tabs-content"
-      ).scrollTop = document.querySelector(".tab-logs").scrollHeight;
+    logs: function () {
+      document.querySelector(".tabs-content").scrollTop =
+        document.querySelector(".tab-logs").scrollHeight;
     },
   },
   async mounted() {
     await this.getContainerData();
+    await this.getDockerHubTags();
   },
   methods: {
+    async getDockerHubTags() {
+      const tags = await axios.get(
+        `https://registry.hub.docker.com/v1/repositories/${this.imageData.image}/tags`
+      );
+
+      this.hubTags = tags.data;
+    },
     async installSecondaryImages() {
       await Promise.all(
         this.secondaryImages.map(async (image) => {

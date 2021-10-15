@@ -1,9 +1,15 @@
 "use strict";
 
-import { app, protocol, BrowserWindow } from "electron";
+import { app, protocol, BrowserWindow, dialog } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
 import path from "path";
+const { autoUpdater } = require("electron-updater");
+import log from "electron-log";
+
+autoUpdater.logger = log;
+autoUpdater.logger.transports.file.level = "info";
+
 const isDevelopment = process.env.NODE_ENV !== "production";
 
 const fixPath = require("fix-path");
@@ -21,14 +27,28 @@ protocol.registerSchemesAsPrivileged([
   { scheme: "app", privileges: { secure: true, standard: true } },
 ]);
 
-function createWindow() {
-  const apiLocation = path.join(path.dirname(__dirname), 'extra', 'index.js');
+async function createWindow() {
+  const isWin = process.platform === "win32";
+
+  const apiLocation = isWin ? path.join(
+    path.dirname(__dirname),
+    "extra",
+    "ceres-api",
+    "dist",
+    "index-win.js"
+  ) : path.join(
+    path.dirname(__dirname),
+    "extra",
+    "ceres-api",
+    "dist",
+    "index.js"
+  );
   console.log(`Starting ceres-api from ${apiLocation}`);
   let ceresApi = spawn("node", [apiLocation]);
   // Create the browser window.
   win = new BrowserWindow({
     width: 980,
-    height: 730,
+    height: 800,
     backgroundColor: "#222",
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
@@ -36,20 +56,48 @@ function createWindow() {
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
       nodeIntegrationInWorker: true,
       // devTools: false
-    }
+    },
+    icon: path.join(__dirname, "../build/512x512.png"),
   });
 
   win.show();
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
-    win.loadURL(process.env.WEBPACK_DEV_SERVER_URL);
+    await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL);
     if (!process.env.IS_TEST) win.webContents.openDevTools();
   } else {
     createProtocol("app");
     // Load the index.html when not in development
     win.loadURL("app://./index.html");
   }
+
+  console.log("checking for update");
+
+  const updateExists = await autoUpdater.checkForUpdatesAndNotify();
+
+  autoUpdater.once("update-downloaded", async (info) => {
+    let options = {
+      title: "Ceres Update available to install",
+      buttons: ["Yes", "Cancel"],
+      message: `A new Ceres update has been downloaded and is available for you to install. (${info.version} - ${info.releaseName}). You have to restart the app to apply the update. Do you want to update to the newest version?`,
+    };
+
+    let dialogResponse = await dialog.showMessageBox(options);
+
+    console.log(dialogResponse.response);
+    if (dialogResponse.response === 0) {
+      setImmediate(() => {
+        app.removeAllListeners("window-all-closed");
+        if (win != null) {
+          win.destroy();
+        }
+        autoUpdater.quitAndInstall(false);
+      });
+    }
+  });
+
+  console.log("update-exists", updateExists);
 
   win.on("closed", () => {
     ceresApi.kill();

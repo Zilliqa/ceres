@@ -6,6 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     docker: {
+      socketPath: "/var/run/docker.sock",
       running: false,
     },
     services: [
@@ -83,10 +84,15 @@ export default new Vuex.Store({
     updateDockerStatus(state, payload) {
       state.docker.running = payload;
     },
+    updateDockerSocketPath(state, payload) {
+      console.log(payload)
+      state.docker.socketPath = payload;
+    }
   },
   actions: {},
   getters: {
-    dockerStatus: (state) => state.docker.running,
+    dockerStatus: state => state.docker.running,
+    dockerSocketPath: state => state.docker.socketPath
   },
   modules: {},
 });

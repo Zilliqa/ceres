@@ -2,8 +2,17 @@
 Ceres is a graphical user interface that runs different Zilliqa development tools under Docker containers without the need of user knowing how to use docker or run it's commands.
 You can focus on Scilla development while Ceres manages Zilliqa Tools for you.
 
-## Requirements
+## System Requirements
+
+### MacOS / Linux
+- **NodeJS** v12 or newer
 - **Docker** - Zilliqa Services are based on docker containers and Ceres acts like a graphical interface on top of Docker.
+- Free ports on your system: 5555, 5556 for Isolated Server, 5557 for Network Explorer, 4000 for Scilla Server
+
+### WINDOWS
+- **NodeJS** v12 or newer
+- **WSL 2.0**
+- **Docker**
 - Free ports on your system: 5555, 5556 for Isolated Server, 5557 for Network Explorer, 4000 for Scilla Server
 
 ## Installation
@@ -30,6 +39,13 @@ This is a developer-focused lightweight explorer to connect to the Zilliqa's net
 As an explorer, Devex is unable to interact with the blockchain other than pulling and displaying data. If you wish to interact with the blockchain (i.e. create contracts, create transactions and so on..), do check out our feature-filled Scilla IDE (https://ide.zilliqa.com/#/)
 
 Network Exporer runs on port 5557. You can access it from any browser on http://localhost:5557
+
+
+## DEBUG
+By default, Ceres Logs are written:
+- on Linux: ~/.config/Ceres/logs/main.log
+- on macOS: ~/Library/Logs/Ceres/main.log
+- on Windows: %USERPROFILE%\AppData\Roaming\Ceres\logs\main.log
 
 ## Development commands
 Open the application with Dev-Tools enabled.
