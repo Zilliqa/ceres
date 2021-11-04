@@ -2,7 +2,7 @@
   "name": "ceres",
   "author": "Ovidiu Miclea (micovi)",
   "description": "Local Zilliqa Network based on Isolated Server",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "private": true,
   "scripts": {
     "start-api": "ceres-api",
@@ -23,7 +23,7 @@
   "dependencies": {
     "@zilliqa-js/util": "^3.3.0",
     "@zilliqa-js/zilliqa": "^3.3.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "bootstrap": "^4.5.2",
     "buefy": "^0.9.0",
     "core-js": "^3.6.5",
