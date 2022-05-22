@@ -1,5 +1,5 @@
 # Ceres
-[Ceres](https://dev.zilliqa.com/docs/dev/dev-tools-ceres) is a graphical user interface that runs different Zilliqa development tools under Docker containers without the need of user knowing how to use docker or run it's commands.
+[Ceres](https://dev.zilliqa.com/docs/dev/dev-tools-ceres) is a graphical user interface that runs different Zilliqa development tools under Docker containers without the need of user knowing how to use docker or run its commands.
 You can focus on Scilla development while Ceres manages Zilliqa Tools for you.
 
 ## System Requirements
@@ -31,7 +31,7 @@ Isolated Server runs 2 containers that are tied togheter:
 A scilla-server provides the functionality of scilla-runner and scilla-checker as a JSON-RPC server. The scilla-server process accepts contract execution requests and executes the contract, providing a JSON output within the server process itself.
 More details about Scilla Server can be found here.
 
-Scilla Server runs on port 4000. You can call it's API on http://localhost:4000
+Scilla Server runs on port 4000. You can call its API on http://localhost:4000
 
 ### Network Explorer
 This is a developer-focused lightweight explorer to connect to the Zilliqa's networks and local testnets.
