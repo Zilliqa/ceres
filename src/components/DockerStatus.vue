@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "DockerStatus",
   data() {
@@ -36,6 +37,9 @@ export default {
     },
   },
   async created() {
+    await axios.post("http://localhost:3939/docker-init", {
+      docker_path: this.$store.getters.dockerSocketPath,
+    });
     this.checkDockerStatus();
     setInterval(() => {
       this.checkDockerStatus();
