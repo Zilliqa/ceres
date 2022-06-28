@@ -2,7 +2,7 @@
   "name": "ceres",
   "author": "Ovidiu Miclea (micovi)",
   "description": "Local Zilliqa Network based on Isolated Server",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "private": true,
   "scripts": {
     "start-api": "ceres-api",
@@ -53,7 +53,7 @@
     "@vue/cli-service": "^4.5.0",
     "babel-eslint": "^10.1.0",
     "electron": "^11.0.1",
-    "electron-builder": "^22.9.1",
+    "electron-builder": "~22.10.5",
     "electron-devtools-installer": "^3.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
