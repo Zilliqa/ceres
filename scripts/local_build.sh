@@ -30,13 +30,13 @@ rm -rf ./images/devex
 
 echo "Creating Scilla Server Image"
 
-git clone https://github.com/zilliqa/scilla-server images/scillaserver
+git clone -b config/move-to-v0.12.0rc00 https://github.com/zilliqa/scilla-server images/scillaserver
 
 tar czf ./extra/ceres-api/images/scillaserver.tar.gz -C ./images/scillaserver .
 rm -rf ./images/scillaserver
 
 echo "Creating Isolated Server Image"
-git clone https://github.com/zilliqa/zilliqa-isolated-server images/zilliqa-isolated-server
+git clone -b config/move-to-v8.2.0rc0 https://github.com/zilliqa/zilliqa-isolated-server images/zilliqa-isolated-server
 
 tar czf ./extra/ceres-api/images/zilliqa-isolated-server.tar.gz -C ./images/zilliqa-isolated-server .
 rm -rf ./images/zilliqa-isolated-server

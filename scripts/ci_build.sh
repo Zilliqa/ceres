@@ -38,7 +38,7 @@ mkdir -p "images/scillaserver"
 cd "images/scillaserver"
 # Prevent storing of oauth token using this method instead of git cloning
 git init
-git pull https://github.com/zilliqa/scilla-server master
+git pull https://github.com/zilliqa/scilla-server config/move-to-v0.12.0rc00
 cd "$ORIGIN_DIR"
 tar czf ./extra/ceres-api/images/scillaserver.tar.gz -C ./images/scillaserver .
 rm -rf ./images/scillaserver
@@ -50,7 +50,7 @@ mkdir -p "images/zilliqa-isolated-server"
 cd "images/zilliqa-isolated-server"
 # Prevent storing of oauth token using this method instead of git cloning
 git init
-git pull https://github.com/zilliqa/zilliqa-isolated-server master
+git pull https://github.com/zilliqa/zilliqa-isolated-server config/move-to-v8.2.0rc0
 cd "$ORIGIN_DIR"
 tar czf ./extra/ceres-api/images/zilliqa-isolated-server.tar.gz -C ./images/zilliqa-isolated-server .
 rm -rf ./images/zilliqa-isolated-server
