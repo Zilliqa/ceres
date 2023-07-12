@@ -1,0 +1,59 @@
+name: CICD
+
+on:
+  push:
+    branches:
+      - '*'
+    tags-ignore:
+      - '*'
+  create:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    env:
+      APPLE_U: ${{ secrets.APPLE_U }}
+      APPLE_PW: ${{ secrets.APPLE_PW }}
+      CERTIFICATE_OSX_P12_BASE64: ${{ secrets.CERTIFICATE_OSX_P12_BASE64 }}
+      CERTIFICATE_PASSWORD_BASE64: ${{ secrets.CERTIFICATE_PASSWORD_BASE64 }}
+      GITHUB_OAUTH_TOKEN: ${{ secrets.OAUTH_TOKEN }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macOS-latest]
+        include:
+        - os: ubuntu-latest
+          os_name: linux
+        - os: macOS-latest
+          os_name: osx
+
+    name: CICD
+    runs-on: ${{ matrix.os }}
+    steps:
+
+    - name: Checkout scm
+      uses: actions/checkout@v3
+
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 12.x
+        cache: npm
+
+    - name: Build
+      env:
+        OS_NAME: ${{ matrix.os_name }}
+      run: |
+        ./scripts/ci_build.sh
+
+    - name: Release
+      if: github.event_name == 'create' && github.event.ref_type == 'tag'
+      uses: softprops/action-gh-release@v1
+      with:
+        name: ${{ github.event.ref }}
+        files: "dist_electron/*"
+        prerelease: false
+        draft: true
+        tag_name: ${{ github.event.ref }}
+      env:
+        GITHUB_TOKEN:  ${{ secrets.GITHUB_TOKEN }}

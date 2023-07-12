@@ -75,7 +75,7 @@ npm run electron:build
 
 
 echo "Prepare Packages"
-if [ "$TRAVIS_OS_NAME" == "osx" ]; then
+if [ "$OS_NAME" == "osx" ]; then
     tar -czvf "dist_electron/macos-unpacked.tar.gz" "dist_electron/mac"
     rm -rf "dist_electron/mac"
 else
